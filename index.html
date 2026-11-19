@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أهم المشكلات الاجتماعية وسبل الوقاية منها وعلاجها</title>
+    <style>
+        :root {
+            --primary: #1b4d3e;
+            --secondary: #c5a059;
+            --bg-light: #f4f6f5;
+            --text-dark: #2c3e50;
+            --white: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', 'Segoe UI', Arial, sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.8; }
+        
+        /* شريط التنقل العلوي */
+        .top-nav {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .nav-links { display: flex; gap: 10px; flex-wrap: wrap; }
+        .nav-links button {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--white);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-links button.active, .nav-links button:hover {
+            background-color: var(--secondary);
+            color: var(--primary);
+            font-weight: bold;
+        }
+        .print-btn {
+            background-color: var(--secondary) !important;
+            color: var(--primary) !important;
+            font-weight: bold;
+        }
+
+        /* حاوية الصفحات */
+        .page-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: var(--white);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            display: none;
+        }
+        .page-container.active { display: block; }
+
+        /* الترويسة والبطاقات */
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+        }
+        header h1 { color: var(--primary); font-size: 26px; margin-bottom: 10px; }
+        header p { color: #666; font-size: 14px; }
+        
+        .student-info {
+            background: #f9fbfb;
+            border: 1px solid #d1dedb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            font-size: 14px;
+        }
+        .student-info div span { font-weight: bold; color: var(--primary); }
+        .student-info input {
+            border: 1px dashed #aaa;
+            padding: 3px 6px;
+            font-size: 13px;
+            width: 70%;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        h2 { color: var(--primary); border-right: 4px solid var(--secondary); padding-right: 12px; margin: 30px 0 15px 0; font-size: 20px; }
+        p, li { margin-bottom: 12px; font-size: 15px; text-align: justify; }
+        ul { padding-right: 20px; }
+
+        .card {
+            background: #fafcfb;
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+
+        /* جدول المقارنة */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #d1dedb;
+            padding: 12px;
+            text-align: center;
+        }
+        th { background-color: var(--primary); color: var(--white); }
+        td:nth-child(even) { background-color: #f9fbfb; }
+
+        /* أزرار التنقل السفلية */
+        .page-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .nav-btn {
+            background-color: var(--primary);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .nav-btn:hover { background-color: #12352b; }
+
+        /* تنسيق الطباعة */
+        @media print {
+            body { background: none; }
+            .top-nav, .page-footer { display: none !important; }
+            .page-container {
+                display: block !important;
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                page-break-after: always;
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 600px) {
+            .page-container { padding: 25px 20px; margin: 20px 10px; }
+            .student-info { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل العلوي -->
+    <div class="top-nav">
+        <strong>نشاط مقرر 102 سلم</strong>
+        <div class="nav-links">
+            <button onclick="switchPage(1)" id="btn-1" class="active">القسم الأول</button>
+            <button onclick="switchPage(2)" id="btn-2">القسم الثاني</button>
+            <button onclick="switchPage(3)" id="btn-3">القسم الثالث</button>
+            <button class="print-btn" onclick="window.print()">معاينة / طباعة الملف</button>
+        </div>
+    </div>
+
+    <!-- ================= القسم الأول ================= -->
+    <div id="page-1" class="page-container active">
+        <header>
+            <h1>أهم المشكلات الاجتماعية وسبل الوقاية منها وعلاجها</h1>
+            <p>بحث إثرائي وتوثيقي موسع مستند إلى مقرر الإسلام وبناء المجتمع (102 سلم)</p>
+        </header>
+
+        <div class="student-info">
+            <div><span>اسم الطالبة:</span> <input type="text" value="ساره الطاسان"></div>
+            <div><span>رقم الشعبة:</span> <input type="text" value="1801"></div>
+            <div><span>الرقم الجامعي:</span> <input type="text" value="461209880"></div>
+            <div><span>أستاذ المقرر:</span> <input type="text" value="د. عبد الكريم البرادي"></div>
+            <div style="grid-column: span 2;"><span>مصدر السلايدات والمقرر:</span> <input type="text" value="كتاب الإسلام وبناء المجتمع (102 سلم)" style="width: 85%;"></div>
+        </div>
+
+        <h2>مقدمة تمهيدية للموضوع</h2>
+        <p>لا تخلو حياة المجتمعات المعاصرة من تحديات ومشكلات تنتظر التشخيص الدقيق وبيان سبل الوقاية والعلاج على هدي الشريعة الإسلامية السمحة. ومن أبرز هذه المشكلات التي تؤثر على كيان الأسرة والمجتمع: انحراف الشباب، انتشار الإعلام المضلل، ضعف الصلة بالعلماء، وفشو الفواحش والمسكرات. نستعرض في هذا البحث المفصل أبعاد هذه المشكلات والحلول الجذرية لها.</p>
+
+        <h2>المشكلة الأولى: انحراف بعض الشباب</h2>
+        <div class="card">
+            <p>يُعد الشباب الصالح عماد الأمة ومصدر قوتها، غير أن انحرافهم يشكل خطراً جسيماً على كيان المجتمع. وينقسم الانحراف إلى نوعين رئيسيين:</p>
+            <ul>
+                <li><strong>الانحراف الفكري:</strong> وهو أخطر الأنواع؛ حيث يعتنق الشباب أفكاراً غير سوية تهدم معالم الدين وثوابته، أو التشدد المذموم الخارج عن الوسطية. وقد حذر النبي ﷺ من الغلو حين أراد نفر التقشف المطلق فقال: (أما والله إني لأخشاكم لله وأتقاكم له، لكني أصوم وأفطر، وأصلي وأرقد، وأتزوج النساء، فمن رغب عن سنتي فليس مني).</li>
+                <li><strong>الانحراف السلوكي:</strong> يشمل الوقوع في المعاملات المالية المحرمة، الأخلاق الذميمة، والتشبه المذموم بغير المسلمين فيما ينافي الهوية الإسلامية.</li>
+            </ul>
+        </div>
+
+        <h2>المشكلة الثانية: انتشار وسائل الإعلام المضللة</h2>
+        <div class="card">
+            <p>تُعتبر وسائل الإعلام الحديثة ومنصات الإنترنت والفضائيات أدوات ذات تأثير بالغ؛ فإذا خلت من القيم السوية تحولت إلى وسيلة لتدمير الأخلاق وغسيل العقول ونشر الإشاعات والفواحش تحت ستار الترفيه وحرية الرأي. وقد أثبتت الدراسات الاجتماعية رجحان كفة السلبيات في الدراما الهابطة التي تقتل الأوقات وتهدم الثوابت.</p>
+        </div>
+
+        <div class="page-footer">
+            <span></span>
+            <button class="nav-btn" onclick="switchPage(2)">التالي ←</button>
+        </div>
+    </div>
+
+    <!-- ================= القسم الثاني ================= -->
+    <div id="page-2" class="page-container">
+        <header>
+            <h1>أهم المشكلات الاجتماعية وسبل الوقاية منها وعلاجها</h1>
+            <p>الوقاية والعلاج والمنهج الإسلامي مقارنة بالنظم الوضعية</p>
+        </header>
+
+        <h2>المشكلة الثالثة: ضعف صلة كثير من الشباب بعلماء الإسلام</h2>
+        <p>يُعد الابتعاد عن العلماء الربانيين من أشد المخاطر؛ لأن العلماء هم منارات الهدى والحصانة الحقيقية للأفراد ضد الشبهات. قال الله تعالى: ﴿هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ﴾ [الزمر: 9]. وتوثيق الصلة بهم وبمجالسهم يحمي الشباب من الانزلاق الفكري.</p>
+
+        <h2>المشكلة الرابعة: فشو الفواحش والمسكرات والمخدرات</h2>
+        <div class="card">
+            <p>حرم الإسلام الفواحش بشتى أنواعها (كالزنا، اللواط، القذف، والاختلاط المحرم) لما تعصف به من صحة الفرد وتفكك الأسرة وضياع الأنساب. كما أن المخدرات والمسكرات والتدخين تقضي على العقل والمال والصحة، وقد أجمعت الشريعة على تحريمها لحفظ الكليات الخمس.</p>
+        </div>
+
+        <h2>سبل الوقاية والعلاج الشاملة من المشكلات الاجتماعية</h2>
+        <table>
+            <tr>
+                <th>مجال الوقاية والعلاج</th>
+                <th>التوجيه الإسلامي والآلية التطبيقية</th>
+            </tr>
+            <tr>
+                <td><strong>التحصين الفكري والثقافي</strong></td>
+                <td>نشر الثقافة الإسلامية الواعية، ربط الشباب بالمساجد، واستثمار القصص التاريخية للقدوة الصالحة.</td>
+            </tr>
+            <tr>
+                <td><strong>التوجيه الأسري والاجتماعي</strong></td>
+                <td>تيسير الزواج المبكر للشباب، تقليل المهور، وغض البصر ومنع الاختلاط المريب والخلوة المحرمة.</td>
+            </tr>
+            <tr>
+                <td><strong>تفعيل الرقابة والتشريعات</strong></td>
+                <td>إنزال العقوبات الشرعية الرادعة بالمفسدين والمهربين حمايةً لأمن المجتمع واستقراره.</td>
+            </tr>
+        </table>
+
+        <div class="page-footer">
+            <button class="nav-btn" onclick="switchPage(1)">← السابق</button>
+            <button class="nav-btn" onclick="switchPage(3)">التالي ←</button>
+        </div>
+    </div>
+
+    <!-- ================= القسم الثالث ================= -->
+    <div id="page-3" class="page-container">
+        <header>
+            <h1>المواد الإثرائية، الفتاوى، والمصادر الموثقة</h1>
+            <p>التوثيق العلمي، الفتاوى الرسمية، والروابط الإثرائية للمشروع</p>
+        </header>
+
+        <h2>المادة الإثرائية: فتاوى ومقاطع مرجعية معتمدة</h2>
+        <div class="card">
+            <p><strong>1. فتوى رسمية بشأن تحريم المخدرات والمسكرات وتطبيق أحكامها:</strong></p>
+            <p style="font-size: 13px; color: #555; background: #fff; padding: 10px; border: 1px solid #eee;">
+                "اتفق علماء الأمة قديماً وحديثاً على تحريم كل ما يُسكر أو يخدّر العقل ويغيبه، كالخمر والحشيش والمخدرات المركبة، لأنها تعارض مقصود الشريعة في حفظ العقل والنفس والمال، ولما تورثه من أمراض وهلاك اجتماعي واقتصادي جسيم." — (منهج كتاب الإسلام وبناء المجتمع).
+            </p>
+            <p style="margin-top: 10px;"><a href="https://www.alifta.gov.sa" target="_blank" style="color: var(--primary); font-weight: bold; text-decoration: underline;">🔗 البوابة الرسمية للرئاسة العامة للبحوث العلمية والإفتاء</a></p>
+        </div>
+
+        <div class="card">
+            <p><strong>2. المواد المرئية الإثرائية (البلاك بورد):</strong></p>
+            <p>يمكن مشاهدة المحاضرات المرئية المعتمدة ومقاطع التوعية عبر الرابط المباشر لمنصة التعلم:</p>
+            <p><a href="https://lms.ksu.edu.sa" target="_blank" style="color: var(--primary); font-weight: bold; text-decoration: underline;">🔗 رابط المحاضرات المرئية والمقرر في البلاك بورد</a></p>
+        </div>
+
+        <h2>المبادرة التطبيقية للمشروع</h2>
+        <div class="card">
+            <p>تم إعداد هذا الموقع الإلكتروني التفاعلي كصفحة ويب متكاملة ليكون نموذجاً متميزاً يتوافق مع متطلبات النشاط الإثرائي، ويعرض المادة العلمية بأسلوب عصري منظم وسهل التصفح.</p>
+        </div>
+
+        <h2>المصادر والمراجع العلمية الموثقة</h2>
+        <ul>
+            <li>كتاب المقرر الرئيسي: <strong>الإسلام وبناء المجتمع (102 سلم)</strong>، تأليف أ.د. حسن أبو غدة، أ.د. زيد العيص، وآخرون، الطبعة السادسة، مكتبة الرشد، الرياض.</li>
+            <li>وحدة: <em>أهم المشكلات الاجتماعية وسبل الوقاية منها وعلاجها</em>.</li>
+            <li>شرائح ومحتويات مقرر الإسلام وبناء المجتمع المعتمدة في منصة البلاك بورد الجامعي.</li>
+        </ul>
+
+        <div class="page-footer">
+            <button class="nav-btn" onclick="switchPage(2)">← السابق</button>
+            <button class="print-btn" onclick="window.print()" style="padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer; background-color: var(--secondary); color: var(--primary);">طباعة النشاط كاملًا</button>
+        </div>
+    </div>
+
+    <script>
+        function switchPage(pageNum) {
+            document.querySelectorAll('.page-container').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.querySelectorAll('.top-nav button').forEach(btn => {
+                if(!btn.classList.contains('print-btn')) btn.classList.remove('active');
+            });
+            
+            document.getElementById('page-' + pageNum).classList.add('active');
+            if(pageNum <= 3) {
+                document.getElementById('btn-' + pageNum).classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
